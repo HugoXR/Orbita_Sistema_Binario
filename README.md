@@ -2,11 +2,6 @@
 
 ## Instalação:
 
-### Instalar requirements.txt
-```
-pip install -r requirements.txt
-```
-
 ### Linux:
 
 ```bash
