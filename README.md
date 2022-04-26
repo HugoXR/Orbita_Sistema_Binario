@@ -1,13 +1,11 @@
 # Orbita de um Sistema Binario - README
 
-### Montar um projeto local
+## Instalação:
 
-Instalar requirements.txt
+### Instalar requirements.txt
 ```
 pip install -r requirements.txt
 ```
-
-Orbita de um Sistema Binário:
 
 ### Linux:
 
@@ -17,7 +15,7 @@ cd Orbita_Sistema_Binario
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
-python3 Orbita.py
+
 ```
 
 ### Windows:
@@ -28,5 +26,10 @@ cd Orbita_Sistema_Binario
 python3 -m venv venv
 . venv/Scripts/activate
 pip install -r requirements.txt
-python3 Orbita.py
+
+```
+
+## Visualizar Órbita Estável:
+```bash
+python3 OrbitaVPY.py
 ```
