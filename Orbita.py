@@ -39,3 +39,4 @@ def dxdt(X, t):
     return np.hstack((np.array(X[9:]), -(G*M_2*r12)/(mod_r12**3),
                       -(G*M_1*r12)/(mod_r12**3), ((-(G*M_1*rp1)/(mod_rp1**3)) +
                      (-(G*M_2*rp2)/(mod_rp2**3)))))
+
