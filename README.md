@@ -1,4 +1,3 @@
-# Orbita de um Sistema Binario - README
 
 ## Instalação:
 
