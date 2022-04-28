@@ -1,3 +1,4 @@
+# Trajetoria orbita usando os dados do Kepler 16
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.integrate import odeint
@@ -6,27 +7,27 @@ from astropy import units
 
 
 def dxdt(X, t):
-    r12 = X[3:6] - X[0:3] # Position between Star 1 and 2
-    rp1 = X[6:9] - X[0:3] # Position between Planet and Star 1
-    rp2 = X[6:9] - X[3:6] # Position between Planet and Star 2
-    mod_r12 = np.linalg.norm(r12) # Module of r12
-    mod_rp1 = np.linalg.norm(rp1) # Module of rp1
-    mod_rp2 = np.linalg.norm(rp2) # Module of rp2
+    r12 = X[3:6] - X[0:3] # Posicao entre a primeira e segunda estrela
+    rp1 = X[6:9] - X[0:3] # Posicao entre a primeira estrela e o planeta
+    rp2 = X[6:9] - X[3:6] # Posicao entre a segunda estrela e o planeta
+    mod_r12 = np.linalg.norm(r12) # Modulo da posicao r12
+    mod_rp1 = np.linalg.norm(rp1) # Modulo da posicao rp1
+    mod_rp2 = np.linalg.norm(rp2) # Modulo da posicao rp2
     return np.hstack((np.array(X[9:]), (G*M_2*r12)/(mod_r12**3) +
                       (G*M_P*rp1/(mod_rp1**3)),
                       -(G*M_1*r12)/(mod_r12**3) + (G*M_P*rp2)/(mod_rp2**3), ((-(G*M_1*rp1)/(mod_rp1**3)) +
                      (-(G*M_2*rp2)/(mod_rp2**3)))))
 
 
-M_1 = (1*units.Msun).decompose().value # Massa da primeira estrela = 1 Massa Solar
-M_2 = (5*units.Msun).decompose().value # Massa da segunda estrela = 5 Massas Solares
-M_P = (10*units.Mjup).decompose().value # Massa do planeta = 10 Massas de Jupiter
+M_1 = (0.6897*units.Msun).decompose().value # Massa da primeira estrela em Massas Solares
+M_2 = (0.20225*units.Msun).decompose().value # Massa da segunda estrela em Massas Solares
+M_P = (0.333*units.Mjup).decompose().value # Massa do planeta em Massas de Jupiter
 
 mu = (M_1 * M_2)/(M_1 + M_2) # Massa reduzida das duas estrelas
 G = constants.G.value # Constante da Gravitacao
 
-a_S = (1 * units.AU).decompose().value # Distancia inicial das estrela (semi-eixo maior) = 1 Unidade Astronomica
-a_P = (2 * units.AU).decompose().value # Distancia inicial do planeta (semi-eixo maior) = 1 Unidade Astronomica
+a_S = (0.22431 * units.AU).decompose().value # Distancia inicial das estrela (semi-eixo maior) em Unidade Astronomica
+a_P = (0.7048 * units.AU).decompose().value # Distancia inicial do planeta (semi-eixo maior) em Unidade Astronomica
 
 r_1 = -a_S*(mu/M_1) # Posicao relativa da primeira estrela
 r_2 = a_S*(mu/M_2) # Posicao relativa da segunda estrelas
@@ -45,4 +46,10 @@ t_orbit = np.linspace(0, P_p, 200)
 
 trajetoria = odeint(dxdt, X, t_orbit)
 
-
+# Plotando grafico
+plt.plot(trajetoria[:,0], trajetoria[:,1], label="Estrela Kepler-16A")
+plt.plot(trajetoria[:,3], trajetoria[:,4], label="Estrela Kepler-16B")
+plt.plot(trajetoria[:,6], trajetoria[:,7], label="Planeta Kepler-16b")
+plt.title("Sistema Circumbinário Kepler-16")
+plt.legend()
+plt.savefig("Sistema Circumbinário Kepler-16.pdf")
