@@ -33,16 +33,23 @@ r_1 = -a_S*(mu/M_1) # Posicao relativa da primeira estrela
 r_2 = a_S*(mu/M_2) # Posicao relativa da segunda estrelas
 r_p = a_P # Posicao do planeta
 
-P = 2*np.pi*np.sqrt((a_S**3)/(G*(M_1 + M_2))) # Periodo da orbita das estrelas (entre si) pela terceira lei de kepler
-P_p = 2*np.pi*np.sqrt((a_P**3)/(G*(M_1 + M_2))) # Periodo da orbita do planeta em torno das estrelas pela terceira lei de kepler
+#P = 2*np.pi*np.sqrt((a_S**3)/(G*(M_1 + M_2))) # Periodo da orbita das estrelas (entre si) pela terceira lei de kepler
+#P_p = 2*np.pi*np.sqrt((a_P**3)/(G*(M_1 + M_2))) # Periodo da orbita do planeta em torno das estrelas pela terceira lei de kepler
+
+P = (41.079220*units.d).decompose().value
+P_p = (228.776*units.d).decompose().value
 
 v_1 = 2*np.pi*r_1/P # Velocidade inicial da estrela 1
 v_2 = 2*np.pi*r_2/P # Velocidade inicial da estrela 2
 v_p = 2*np.pi*r_p/P_p # Velocidade inicial do planeta
 
+#v_1 = -13E3
+#v_2 = 45E3
+#v_p = 33E3
+
 X = np.array([r_1, 0, 0, r_2, 0, 0, r_p, 0, 0, 0, v_1, 0, 0, v_2, 0, 0,
               v_p, 0])
-t_orbit = np.linspace(0, P_p, 200)
+t_orbit = np.linspace(0, P_p, 1000)
 
 trajetoria = odeint(dxdt, X, t_orbit)
 
@@ -50,6 +57,10 @@ trajetoria = odeint(dxdt, X, t_orbit)
 plt.plot(trajetoria[:,0], trajetoria[:,1], label="Estrela Kepler-16A")
 plt.plot(trajetoria[:,3], trajetoria[:,4], label="Estrela Kepler-16B")
 plt.plot(trajetoria[:,6], trajetoria[:,7], label="Planeta Kepler-16b")
+plt.plot(trajetoria[-1,0], trajetoria[-1, 1], 'o')
+plt.plot(trajetoria[-1,3], trajetoria[-1, 4], 'o')
+plt.plot(trajetoria[-1,6], trajetoria[-1, 7], 'o')
 plt.title("Sistema Circumbinário Kepler-16")
 plt.legend()
+plt.show()
 plt.savefig("Sistema Circumbinário Kepler-16.pdf")
