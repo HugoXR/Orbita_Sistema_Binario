@@ -18,8 +18,6 @@ def dxdt(X, t):
                       -(G*M_1*r12)/(mod_r12**3) + (G*M_P*rp2)/(mod_rp2**3), ((-(G*M_1*rp1)/(mod_rp1**3)) +
                      (-(G*M_2*rp2)/(mod_rp2**3)))))
 
-<<<<<<< HEAD
-=======
 
 M_1 = (0.6897*units.Msun).decompose().value # Massa da primeira estrela em Massas Solares
 M_2 = (0.20225*units.Msun).decompose().value # Massa da segunda estrela em Massas Solares
@@ -66,4 +64,3 @@ plt.title("Sistema Circumbinário Kepler-16")
 plt.legend()
 plt.show()
 plt.savefig("Sistema Circumbinário Kepler-16.pdf")
->>>>>>> Hugo
