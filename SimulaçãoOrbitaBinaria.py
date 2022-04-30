@@ -10,32 +10,32 @@ Created on Fri Apr 29 12:37:05 2022
 
 #Aqui vai ficar as variaveis que vamos poder mudar
 # Distancia inicial entre o planeta e sua estrela
-distancia_inicial_planeta   = 12 
+distancia_inicial_planeta   = 30
 
 
 # Velocidade inicial do planeta para com a estrela em AU (unidade astronômica) por ano.
 # Unidades métricas (SI) 1 AU = 1.495978707×10e+11 m
-vel_inicial_planeta  = 3   
+vel_inicial_planeta  =   2 
 
 #Massa do planeta, como um multiplo da massa do sol 
 massa_planeta    =  0.001  
 
 #Massa da Estrela 1 
-massa_estrela1        = 1.5
+massa_estrela1        = 1.3
 
 
 #Massa da Estrela 2
-massa_estrela2        = .5
+massa_estrela2        = .7
 
 #Quanto as estrelas estão distantes
-separacao_estrelas    = 15
+separacao_estrelas    = 70
 
 # Velocidade inicial das estrelas 
-vel_inicialestrelas  =  2
+vel_inicialestrelas  =  0.5
 
 
 #Quantos segundos, 1 ano simulado deve levar 
-segundos_por_anos = 1
+segundos_por_anos = 0.1
 
 
 
@@ -67,8 +67,8 @@ vel_estrela2 -= vel_centro_massa
 
 
 #tamanho das estrelas
-tam_estrela1 = 1.09
-tam_estrela2 = 2
+tam_estrela1 = 1.0
+tam_estrela2 = 0.5
 
 inclinacao *= vp.pi/180
 
@@ -78,7 +78,7 @@ pos_planeta = vp.vector(distancia_inicial_planeta*vp.cos(inclinacao), 0, distanc
 vel_planeta = vp.vector(0,vel_inicial_planeta,0)
 
 #tamanho da esfera planeta
-tam_planeta = 0.5
+tam_planeta = 0.01
 
 #Como estamos usando as unidades tranformadas para o sistema de unidades astronomicas e procurando uma orbita eliptica 4*pi^2*M sendo M=(m1+m2)
 G= 4*vp.pi**2
@@ -101,7 +101,7 @@ interval=0.0001
 
 
 pos_planeta += vel_planeta * interval/2
-ultima_distancia_estrela = distancia_estrela = vp.mag(pos_planeta)  
+ultima_distancia_estrela = distancia_estrela = (pos_planeta).mag  
 
 
 steps = 0
@@ -110,9 +110,9 @@ steps = 0
 while True:
 #Simulação
        #Distancia entre cada corpo
-    planeta_estrela1 = vp.mag(pos_planeta - pos_estrela1)
-    estrela1_estrela2 = vp.mag(pos_estrela1 - pos_estrela2)
-    planeta_estrela2 = vp.mag(pos_planeta - pos_estrela2)
+    planeta_estrela1 = (pos_planeta - pos_estrela1).mag
+    estrela1_estrela2 = (pos_estrela1 - pos_estrela2).mag
+    planeta_estrela2 = (pos_planeta - pos_estrela2).mag
 
         #Direção do vetor unitario 
     direcao_planeta_estrela1 = (pos_estrela1 - pos_planeta).hat  #A.hat = A/|A|, a unit vector in the direction of the vector 
@@ -156,6 +156,6 @@ while True:
     steps += 1
 
     ultima_ultima_distancia_estrela = ultima_distancia_estrela
-    ultima_distancia_estrela = vp.mag(pos_planeta)
+    ultima_distancia_estrela = (pos_planeta).mag
 
 #referencia do site projeto https://walterfreeman.github.io/ast101/binarysim.html
