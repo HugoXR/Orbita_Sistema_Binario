@@ -1,9 +1,9 @@
-##Projeto de Órbitas variáveis: 
+## Projeto de Órbitas variáveis: 
 
-###git clone -b Joao https://github.com/HugoXR/Orbita_Sistema_Binario
-### cd Orbita_Sistema_Binario
 ```bash
-python3 SimulaçãoOrbitaBinaria.py
+ git clone -b Joao https://github.com/HugoXR/Orbita_Sistema_Binario
+ cd Orbita_Sistema_Binario
+ python3 SimulaçãoOrbitaBinaria.py
 ```
 
 
