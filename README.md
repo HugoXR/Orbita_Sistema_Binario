@@ -23,7 +23,7 @@ pip install -r requirements.txt
 
 ```
 
-## Visualizar Órbita Estável:
+## Visualizar Órbita Estável de Tipo S (não circunbinária):
 ```bash
-python3 OrbitaVPY.py
+python3 Orbita-S.py
 ```
