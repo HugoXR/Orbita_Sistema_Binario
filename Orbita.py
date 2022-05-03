@@ -5,6 +5,10 @@ from scipy.integrate import odeint
 from astropy import constants
 from astropy import units
 
+<<<<<<< HEAD
+=======
+import vpython
+>>>>>>> 7da462b09a0cf8f69ca72aca140f6e92cde904c9
 
 def dxdt(X, t):
     r12 = X[3:6] - X[0:3] # Posicao entre a primeira e segunda estrela
@@ -33,19 +37,33 @@ r_1 = -a_S*(mu/M_1) # Posicao relativa da primeira estrela
 r_2 = a_S*(mu/M_2) # Posicao relativa da segunda estrelas
 r_p = a_P # Posicao do planeta
 
+<<<<<<< HEAD
 #P = 2*np.pi*np.sqrt((a_S**3)/(G*(M_1 + M_2))) # Periodo da orbita das estrelas (entre si) pela terceira lei de kepler
 #P_p = 2*np.pi*np.sqrt((a_P**3)/(G*(M_1 + M_2))) # Periodo da orbita do planeta em torno das estrelas pela terceira lei de kepler
 
 P = (41.079220*units.d).decompose().value
 P_p = (228.776*units.d).decompose().value
+=======
+P = 2*np.pi*np.sqrt((a_S**3)/(G*(M_1 + M_2))) # Periodo da orbita das estrelas (entre si) pela terceira lei de kepler
+P_p = 2*np.pi*np.sqrt((a_P**3)/(G*(M_1 + M_2))) # Periodo da orbita do planeta em torno das estrelas pela terceira lei de kepler
+
+#P = (41.079220*units.d).decompose().value # Periodo da orbita das estrelas(entre si) em dias
+#P_p = (228.776*units.d).decompose().value # Periodo da orbita do planeta em torno das estrelas em dias
+>>>>>>> 7da462b09a0cf8f69ca72aca140f6e92cde904c9
 
 v_1 = 2*np.pi*r_1/P # Velocidade inicial da estrela 1
 v_2 = 2*np.pi*r_2/P # Velocidade inicial da estrela 2
 v_p = 2*np.pi*r_p/P_p # Velocidade inicial do planeta
 
+<<<<<<< HEAD
 #v_1 = -13E3
 #v_2 = 45E3
 #v_p = 33E3
+=======
+#v_1 = np.sqrt(2*G*M_1/abs(r_1))
+#v_2 = -np.sqrt(2*G*M_2/abs(r_2))
+#v_p = np.sqrt(2*G*M_1/abs(r_1)) + np.sqrt(2*G*M_2/abs(r_2))
+>>>>>>> 7da462b09a0cf8f69ca72aca140f6e92cde904c9
 
 X = np.array([r_1, 0, 0, r_2, 0, 0, r_p, 0, 0, 0, v_1, 0, 0, v_2, 0, 0,
               v_p, 0])
@@ -53,6 +71,7 @@ t_orbit = np.linspace(0, P_p, 1000)
 
 trajetoria = odeint(dxdt, X, t_orbit)
 
+<<<<<<< HEAD
 # Plotando grafico
 plt.plot(trajetoria[:,0], trajetoria[:,1], label="Estrela Kepler-16A")
 plt.plot(trajetoria[:,3], trajetoria[:,4], label="Estrela Kepler-16B")
@@ -64,3 +83,29 @@ plt.title("Sistema Circumbinário Kepler-16")
 plt.legend()
 plt.show()
 plt.savefig("Sistema Circumbinário Kepler-16.pdf")
+=======
+#Simulacao com vpython
+star1 = vpython.sphere(pos=vpython.vector(r_1, 0, 0), radius=(0.6897*units.R_sun).decompose().value, color=vpython.color.yellow, make_trail=True)
+star2 = vpython.sphere(pos=vpython.vector(r_2, 0, 0), radius=(0.22623*units.R_sun).decompose().value, color=vpython.color.cyan, make_trail=True)
+planet = vpython.sphere(pos=vpython.vector(r_p, 0, 0),
+                        radius=(0.7538*units.R_jupiter).decompose().value,
+                        color=vpython.color.red, make_trail=True)
+
+for ponto in trajetoria:
+    vpython.rate(100)
+    star1.pos = vpython.vector(ponto[0], ponto[1], ponto[2])
+    star2.pos = vpython.vector(ponto[3], ponto[4], ponto[5])
+    planet.pos = vpython.vector(ponto[6], ponto[7], ponto[8])
+
+# Plotando grafico
+plt.plot(trajetoria[:, 0], trajetoria[:, 1], label="Estrela Kepler-16A")
+plt.plot(trajetoria[:, 3], trajetoria[:, 4], label="Estrela Kepler-16B")
+plt.plot(trajetoria[:, 6], trajetoria[:, 7], label="Planeta Kepler-16b")
+plt.plot(trajetoria[-1, 0], trajetoria[-1, 1], 'o')
+plt.plot(trajetoria[-1, 3], trajetoria[-1, 4], 'o')
+plt.plot(trajetoria[-1, 6], trajetoria[-1, 7], 'o')
+plt.title("Sistema Circumbinário Kepler-16")
+plt.legend()
+plt.show()
+plt.savefig("Sistema Circumbinário Kepler-16.pdf")
+>>>>>>> 7da462b09a0cf8f69ca72aca140f6e92cde904c9
