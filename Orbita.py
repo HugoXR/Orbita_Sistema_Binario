@@ -6,6 +6,24 @@ from astropy import constants
 from astropy import units
 
 import vpython
+<<<<<<< HEAD
+=======
+
+def R_K(f, X, time):
+    X_final = X.copy()
+    delt = time[2] - time[1]
+    tFinal = time[-1]
+    t = time[0]
+    while t+delt/2 < tFinal:
+        print(X_final)
+        try:
+            X += f(X+f(X, t)*delt/2, t+delt/2)*delt
+        except ZeroDivisionError:
+            X += np.zeros_like(X)
+        t += delt
+        X_final = np.concatenate((X_final,X))
+    return X_final.reshape((len(X_final)//len(X), len(X)))
+>>>>>>> Hugo
 
 def dxdt(X, t):
     r12 = X[3:6] - X[0:3] # Posicao entre a primeira e segunda estrela
@@ -14,6 +32,11 @@ def dxdt(X, t):
     mod_r12 = np.linalg.norm(r12) # Modulo da posicao r12
     mod_rp1 = np.linalg.norm(rp1) # Modulo da posicao rp1
     mod_rp2 = np.linalg.norm(rp2) # Modulo da posicao rp2
+<<<<<<< HEAD
+=======
+    if(mod_r12 == 0 or mod_rp1 == 0 or mod_rp2 == 0):
+        raise ZeroDivisionError
+>>>>>>> Hugo
     return np.hstack((np.array(X[9:]), (G*M_2*r12)/(mod_r12**3) +
                       (G*M_P*rp1/(mod_rp1**3)),
                       -(G*M_1*r12)/(mod_r12**3) + (G*M_P*rp2)/(mod_rp2**3), ((-(G*M_1*rp1)/(mod_rp1**3)) +
@@ -28,11 +51,20 @@ mu = (M_1 * M_2)/(M_1 + M_2) # Massa reduzida das duas estrelas
 G = constants.G.value # Constante da Gravitacao
 
 a_S = (0.22431 * units.AU).decompose().value # Distancia inicial das estrela (semi-eixo maior) em Unidade Astronomica
+<<<<<<< HEAD
 a_P = (0.7048 * units.AU).decompose().value # Distancia inicial do planeta (semi-eixo maior) em Unidade Astronomica
 
 r_1 = -a_S*(mu/M_1) # Posicao relativa da primeira estrela
 r_2 = a_S*(mu/M_2) # Posicao relativa da segunda estrelas
 r_p = a_P # Posicao do planeta
+=======
+a_P = (0.7048 * units.AU).decompose().value # Distancia inicial do planeta (semi-eixo maior) em Unidade Astronomica 
+
+r_1 = -a_S*(mu/M_1) # Posicao relativa da primeira estrela
+r_2 = a_S*(mu/M_2) # Posicao relativa da segunda estrelas
+r_p = a_P  # Posicao do planeta
+
+>>>>>>> Hugo
 
 P = 2*np.pi*np.sqrt((a_S**3)/(G*(M_1 + M_2))) # Periodo da orbita das estrelas (entre si) pela terceira lei de kepler
 P_p = 2*np.pi*np.sqrt((a_P**3)/(G*(M_1 + M_2))) # Periodo da orbita do planeta em torno das estrelas pela terceira lei de kepler
@@ -53,6 +85,10 @@ X = np.array([r_1, 0, 0, r_2, 0, 0, r_p, 0, 0, 0, v_1, 0, 0, v_2, 0, 0,
 t_orbit = np.linspace(0, P_p, 1000)
 
 trajetoria = odeint(dxdt, X, t_orbit)
+<<<<<<< HEAD
+=======
+#trajetoria = R_K(dxdt, X, t_orbit)
+>>>>>>> Hugo
 
 #Simulacao com vpython
 star1 = vpython.sphere(pos=vpython.vector(r_1, 0, 0), radius=(0.6897*units.R_sun).decompose().value, color=vpython.color.yellow, make_trail=True)
@@ -75,6 +111,12 @@ plt.plot(trajetoria[-1, 0], trajetoria[-1, 1], 'o')
 plt.plot(trajetoria[-1, 3], trajetoria[-1, 4], 'o')
 plt.plot(trajetoria[-1, 6], trajetoria[-1, 7], 'o')
 plt.title("Sistema Circumbinário Kepler-16")
+<<<<<<< HEAD
 plt.legend()
 plt.show()
 plt.savefig("Sistema Circumbinário Kepler-16.pdf")
+=======
+plt.legend(loc="lower left")
+plt.savefig("Sistema Circumbinário Kepler-16.pdf")
+plt.show()
+>>>>>>> Hugo
