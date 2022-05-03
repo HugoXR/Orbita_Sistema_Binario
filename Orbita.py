@@ -44,7 +44,7 @@ M_P = (0.333*units.Mjup).decompose().value # Massa do planeta em Massas de Jupit
 mu = (M_1 * M_2)/(M_1 + M_2) # Massa reduzida das duas estrelas
 G = constants.G.value # Constante da Gravitacao
 
-a_S = (0.72431 * units.AU).decompose().value # Distancia inicial das estrela (semi-eixo maior) em Unidade Astronomica
+a_S = (0.22431 * units.AU).decompose().value # Distancia inicial das estrela (semi-eixo maior) em Unidade Astronomica
 a_P = (0.7048 * units.AU).decompose().value # Distancia inicial do planeta (semi-eixo maior) em Unidade Astronomica 
 
 r_1 = -a_S*(mu/M_1) # Posicao relativa da primeira estrela
@@ -94,6 +94,6 @@ plt.plot(trajetoria[-1, 0], trajetoria[-1, 1], 'o')
 plt.plot(trajetoria[-1, 3], trajetoria[-1, 4], 'o')
 plt.plot(trajetoria[-1, 6], trajetoria[-1, 7], 'o')
 plt.title("Sistema Circumbinário Kepler-16")
-plt.legend()
-plt.show()
+plt.legend(loc="lower left")
 plt.savefig("Sistema Circumbinário Kepler-16.pdf")
+plt.show()
