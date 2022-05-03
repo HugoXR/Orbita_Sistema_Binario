@@ -10,7 +10,7 @@ Created on Fri Apr 29 12:37:05 2022
 
 #Aqui vai ficar as variaveis que vamos poder mudar
 # Distancia inicial entre o planeta e sua estrela
-distancia_inicial_planeta   = 30
+distancia_inicial_planeta   = 20
 
 
 # Velocidade inicial do planeta para com a estrela em AU (unidade astronômica) por ano.
@@ -28,14 +28,14 @@ massa_estrela1        = 1.3
 massa_estrela2        = .7
 
 #Quanto as estrelas estão distantes
-separacao_estrelas    = 70
+separacao_estrelas    = 2
 
 # Velocidade inicial das estrelas 
-vel_inicialestrelas  =  0.5
+vel_inicialestrelas  =  8
 
 
 #Quantos segundos, 1 ano simulado deve levar 
-segundos_por_anos = 0.1
+segundos_por_anos = 0.001
 
 
 
