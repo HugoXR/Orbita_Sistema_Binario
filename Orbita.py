@@ -5,7 +5,7 @@ from scipy.integrate import odeint
 from astropy import constants
 from astropy import units
 
-import vpython
+from vpython import *
 
 def R_K(f, X, time):
     X_final = X.copy()
@@ -74,17 +74,76 @@ trajetoria = odeint(dxdt, X, t_orbit)
 #trajetoria = R_K(dxdt, X, t_orbit)
 
 #Simulacao com vpython
-star1 = vpython.sphere(pos=vpython.vector(r_1, 0, 0), radius=(0.6897*units.R_sun).decompose().value, color=vpython.color.yellow, make_trail=True)
-star2 = vpython.sphere(pos=vpython.vector(r_2, 0, 0), radius=(0.22623*units.R_sun).decompose().value, color=vpython.color.cyan, make_trail=True)
-planet = vpython.sphere(pos=vpython.vector(r_p, 0, 0),
+star1 = sphere(pos=vector(r_1, 0, 0), radius=(0.6897*units.R_sun).decompose().value, color=color.yellow, make_trail=True)
+star2 = sphere(pos=vector(r_2, 0, 0), radius=(0.22623*units.R_sun).decompose().value, color=color.cyan, make_trail=True)
+planet = sphere(pos=vector(r_p, 0, 0),
                         radius=(0.7538*units.R_jupiter).decompose().value,
-                        color=vpython.color.red, make_trail=True)
+                        color=color.red, make_trail=True)
 
+# Vetor aceleracao que aponta do planeta a estrela Kepler-16A
+star1_planet_component = (X[0:3] - X[6:9]) # Componentes do vetor posicao
+mod_star1_planet_component = np.linalg.norm(star1_planet_component) # Modulo do vetor posicao
+star1_acc = G*M[0]*(star1_planet_component)/mod_star1_planet_component**3 # Vetor aceleracao
+planet.vecstar1 = vec(star1_acc[0]*1E+10, star1_acc[1]*1E+10, star1_acc[2]*1E+10) # Criando vetor
+attach_arrow(planet, "vecstar1", color=color.yellow, shaftwidth=0.8*1E+8) # Anexando vetor
+
+# Vetor acaeleracao que aponta do planeta a estrela Kepler-16B
+star2_planet_component = (X[3:6] - X[6:9]) # Componentes do vetor
+mod_star2_planet_component = np.linalg.norm(star2_planet_component) # Modulo do vetor posicao
+star2_acc = G*M[1]*(star2_planet_component)/mod_star2_planet_component**3 # Vetor aceleracao
+planet.vecstar2 = vec(star2_acc[0]*1E+10, star2_acc[1]*1E+10, star2_acc[2]*1E+10) # Criando vetor
+attach_arrow(planet, "vecstar2", color=color.cyan, shaftwidth=0.8*1E+8) # Anexando vetor
+
+
+# Vetor que aponta do planeta a direcao do vetor da forca resultante
+radial_component = star1_acc + star2_acc # Componentes do vetor
+planet.rad = vec(radial_component[0]*1E+10, radial_component[1]*1E+10, radial_component[2]*1E+10) # Criando vetor
+attach_arrow(planet, "rad", color=color.blue, shaftwidth=0.8*1E+8) # Anexando vetor
+i
 for ponto in trajetoria:
-    vpython.rate(100)
-    star1.pos = vpython.vector(ponto[0], ponto[1], ponto[2])
-    star2.pos = vpython.vector(ponto[3], ponto[4], ponto[5])
-    planet.pos = vpython.vector(ponto[6], ponto[7], ponto[8])
+    rate(100)
+    
+    # Posicao dos corpos
+    star1.pos = vector(ponto[0], ponto[1], ponto[2])
+    star2.pos = vector(ponto[3], ponto[4], ponto[5])
+    planet.pos = vector(ponto[6], ponto[7], ponto[8])
+    
+    # Componentes dos vetores posicao
+    star1_planet_component = (star1.pos - planet.pos)
+    star2_planet_component = (star2.pos - planet.pos)
+    
+    # Modulos dos vetores posicao
+    mod_star1_planet_component = star1_planet_component.mag
+    mod_star2_planet_component = star2_planet_component.mag
+    
+    # Vetor aceleracao
+    star1_acc = G*M[0]*(star1_planet_component)/mod_star1_planet_component**3 # Vetor aceleracao
+    star2_acc = G*M[1]*(star2_planet_component)/mod_star2_planet_component**3 # Vetor aceleracao
+    radial = (star1_acc + star2_acc)
+
+    # Vetores
+    if(star1_acc.mag < 1E+11):
+        planet.vecstar1 = vec(star1_acc*1E+12)
+    elif(star1_acc.mag >= 1E+55):
+        planet.vecstar1 = vec(star1_acc*1E-22)
+    else:
+        planet.vecstar1 = vec(star1_acc)
+    
+    if(star2_acc.mag < 1E+11):
+        planet.vecstar2 = vec(star2_acc*1E+12)
+    elif(star2_acc.mag >= 1E+55):
+        planet.vecstar2 = vec(star2_acc*1E-22)
+    else:
+        planet.vecstar2 = vec(star2_acc)
+    
+    if(radial.mag < 1E+11):
+        planet.rad = vec(radial*1E+12)
+    elif(radial.mag >= 1E+55):
+        planet.rad = vec(radial*1E-22)
+    else:
+        planet.rad = vec(radial)
+    
+
 
 # Plotando grafico
 plt.plot(trajetoria[:, 0], trajetoria[:, 1], label="Estrela Kepler-16A")
