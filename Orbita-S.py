@@ -6,7 +6,6 @@ Created on Tue Apr 26 16:55:36 2022
 """
 from vpython import *
 import numpy as np
-import matplotlib.pyplot as plt
 
 
 G=6.67e-11
@@ -40,7 +39,8 @@ plan1.p = plan1.m*vector(0,plan1.v,0)
 
 
 t=0
-dt=100
+dt=1000
+
 
 
 while t<1e7:
@@ -53,11 +53,14 @@ while t<1e7:
   F2p=-G*star2.m*plan1.m*norm(r2p)/mag(r2p)**2
   star1.p = star1.p - (F12+F1p)*dt
   star2.p = star2.p + (F12-F2p)*dt
-  plan1.p = plan1.p + F1p*dt 
+  plan1.p = plan1.p + (F1p+F2p)*dt 
   star1.pos = star1.pos + star1.p*dt/star1.m
   star2.pos = star2.pos + star2.p*dt/star2.m
   plan1.pos = plan1.pos + plan1.p*dt/plan1.m
   Rcm=(star1.m*star1.pos+star2.m*star2.pos)/M
   Cm.pos=Rcm
-  
   t=t+dt
+  
+  
+
+
