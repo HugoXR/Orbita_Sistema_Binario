@@ -83,14 +83,14 @@ planet = sphere(pos=vector(r_p, 0, 0),
 # Vetor aceleracao que aponta do planeta a estrela Kepler-16A
 star1_planet_component = (X[0:3] - X[6:9]) # Componentes do vetor posicao
 mod_star1_planet_component = np.linalg.norm(star1_planet_component) # Modulo do vetor posicao
-star1_acc = G*M[0]*(star1_planet_component)/mod_star1_planet_component**3 # Vetor aceleracao
+star1_acc = G*M_1*(star1_planet_component)/mod_star1_planet_component**3 # Vetor aceleracao
 planet.vecstar1 = vec(star1_acc[0]*1E+10, star1_acc[1]*1E+10, star1_acc[2]*1E+10) # Criando vetor
 attach_arrow(planet, "vecstar1", color=color.yellow, shaftwidth=0.8*1E+8) # Anexando vetor
 
 # Vetor acaeleracao que aponta do planeta a estrela Kepler-16B
 star2_planet_component = (X[3:6] - X[6:9]) # Componentes do vetor
 mod_star2_planet_component = np.linalg.norm(star2_planet_component) # Modulo do vetor posicao
-star2_acc = G*M[1]*(star2_planet_component)/mod_star2_planet_component**3 # Vetor aceleracao
+star2_acc = G*M_2*(star2_planet_component)/mod_star2_planet_component**3 # Vetor aceleracao
 planet.vecstar2 = vec(star2_acc[0]*1E+10, star2_acc[1]*1E+10, star2_acc[2]*1E+10) # Criando vetor
 attach_arrow(planet, "vecstar2", color=color.cyan, shaftwidth=0.8*1E+8) # Anexando vetor
 
@@ -99,7 +99,8 @@ attach_arrow(planet, "vecstar2", color=color.cyan, shaftwidth=0.8*1E+8) # Anexan
 radial_component = star1_acc + star2_acc # Componentes do vetor
 planet.rad = vec(radial_component[0]*1E+10, radial_component[1]*1E+10, radial_component[2]*1E+10) # Criando vetor
 attach_arrow(planet, "rad", color=color.blue, shaftwidth=0.8*1E+8) # Anexando vetor
-i
+
+
 for ponto in trajetoria:
     rate(100)
     
@@ -117,32 +118,14 @@ for ponto in trajetoria:
     mod_star2_planet_component = star2_planet_component.mag
     
     # Vetor aceleracao
-    star1_acc = G*M[0]*(star1_planet_component)/mod_star1_planet_component**3 # Vetor aceleracao
-    star2_acc = G*M[1]*(star2_planet_component)/mod_star2_planet_component**3 # Vetor aceleracao
+    star1_acc = G*M_1*(star1_planet_component)/mod_star1_planet_component**3 # Vetor aceleracao
+    star2_acc = G*M_2*(star2_planet_component)/mod_star2_planet_component**3 # Vetor aceleracao
     radial = (star1_acc + star2_acc)
 
     # Vetores
-    if(star1_acc.mag < 1E+11):
-        planet.vecstar1 = vec(star1_acc*1E+12)
-    elif(star1_acc.mag >= 1E+55):
-        planet.vecstar1 = vec(star1_acc*1E-22)
-    else:
-        planet.vecstar1 = vec(star1_acc)
-    
-    if(star2_acc.mag < 1E+11):
-        planet.vecstar2 = vec(star2_acc*1E+12)
-    elif(star2_acc.mag >= 1E+55):
-        planet.vecstar2 = vec(star2_acc*1E-22)
-    else:
-        planet.vecstar2 = vec(star2_acc)
-    
-    if(radial.mag < 1E+11):
-        planet.rad = vec(radial*1E+12)
-    elif(radial.mag >= 1E+55):
-        planet.rad = vec(radial*1E-22)
-    else:
-        planet.rad = vec(radial)
-    
+    planet.vecstar1 = vec(star1_acc*1E+12)
+    planet.vecstar2 = vec(star2_acc*1E+12)
+    planet.rad = vec(radial*1E+12)
 
 
 # Plotando grafico
