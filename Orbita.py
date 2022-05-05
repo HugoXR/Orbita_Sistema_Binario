@@ -123,9 +123,9 @@ for ponto in trajetoria:
     radial = (star1_acc + star2_acc)
 
     # Vetores
-    planet.vecstar1 = vec(star1_acc*1E+12)
-    planet.vecstar2 = vec(star2_acc*1E+12)
-    planet.rad = vec(radial*1E+12)
+    planet.vecstar1 = vec(star1_acc*1E+13)
+    planet.vecstar2 = vec(star2_acc*1E+13)
+    planet.rad = vec(radial*1E+13)
 
 
 # Plotando grafico
