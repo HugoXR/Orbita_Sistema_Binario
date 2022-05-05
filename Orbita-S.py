@@ -39,7 +39,7 @@ plan1.p = plan1.m*vector(0,plan1.v,0)
 
 
 t=0
-dt=100
+dt=1000
 
 
 
